@@ -86,23 +86,23 @@ class mesh:
         
         #-------------------------------------------------------------------
         # write the headline
-        bMD.write("/*--------------------------------*- C++ -*----------------------------------*\ \n")
-        bMD.write("| =========                 |                                                 | \n")
-        bMD.write("| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           | \n")
-        bMD.write("|  \\    /   O peration     | Version:  4.1                                   | \n")
-        bMD.write("|   \\  /    A nd           | Web:      www.OpenFOAM.org                      | \n")
-        bMD.write("|    \\/     M anipulation  |                                                 | \n")
-        bMD.write("\*---------------------------------------------------------------------------*/ \n")
+        bMD.write("/*--------------------------------*- C++ -*----------------------------------*\\\n")
+        bMD.write("  =========                 |\n")
+        bMD.write("  \\\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox\n")
+        bMD.write("   \\\    /   O peration     | Website:  https://openfoam.org\n")
+        bMD.write("    \\\  /    A nd           | Version:  8\n")
+        bMD.write("     \\\/     M anipulation  |\n")
+        bMD.write("\*---------------------------------------------------------------------------*/\n")
         
         # write file description
-        bMD.write("FoamFile \n")
-        bMD.write("{ \n \t version \t 2.0; \n \t format \t ascii; \n")
-        bMD.write(" \t class \t\t dictionary; \n \t object \t blockMeshDict; \n} \n")
-        bMD.write("// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * // \n\n")
+        bMD.write("FoamFile\n")
+        bMD.write("{ \n \t version \t 2.0; \n \t format \t ascii;\n")
+        bMD.write(" \t class \t\t dictionary; \n \t object \t blockMeshDict; \n}\n")
+        bMD.write("// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //\n\n")
         
         #-------------------------------------------------------------------
         # convert to metres
-        bMD.write("convertToMeters \t" + repr(self.mScale) + "; \n\n")
+        bMD.write("convertToMeters \t" + repr(self.mScale) + ";\n\n")
         
         #-------------------------------------------------------------------
         # write vertices
