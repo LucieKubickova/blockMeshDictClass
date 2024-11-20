@@ -68,8 +68,8 @@ class mesh:
             self.nPoints += 1
             return self.nPoints-1
 
-    def addBlock(self, vertices, neighbours, nCells, grading, grType = "simpleGrading", name = None):
-        block = blockClass(neighbours, nCells, grading, grType, name)
+    def addBlock(self, vertices, neighbours, nCells, grading, grType = "simpleGrading", name = None, cellZone = False):
+        block = blockClass(neighbours, nCells, grading, grType, name, cellZone)
         self.blocks.append(block)
 
         for vertex in vertices:
@@ -86,7 +86,7 @@ class mesh:
         edge = edgeClass(edgeType, indices, vertices)
         self.edges.append(edge)
 
-    def writeBMD(self, path, cellZones = True):
+    def writeBMD(self, path):
         bMD = open(path + "/blockMeshDict",'w')                    #open file for writing
         
         #-------------------------------------------------------------------
@@ -130,7 +130,7 @@ class mesh:
         # write blocks
         bMD.write("blocks \n( \n")
         for block in self.blocks:
-            for line in block.retBlockString(cellZone = cellZones):
+            for line in block.retBlockString():
                 bMD.write(line)
         bMD.write("); \n\n")
         
@@ -169,14 +169,15 @@ class blockClass:
     """ Base python class containing functions to generate blockMeshDict
         blocks """
         
-    def __init__(self, neighbours, nCells, grading, grType, name):
-        self.neighs = neighbours
-        self.nCells = nCells
-        self.grading= grading
-        self.grStr  = grType
-        self.name   = name
+    def __init__(self, neighbours, nCells, grading, grType, name, cellZone):
+        self.neighs   = neighbours
+        self.nCells   = nCells
+        self.grading  = grading
+        self.grStr    = grType
+        self.name     = name
+        self.cellZone = cellZone
 
-        self.indices = list()
+        self.indices  = list()
         
     # functions to return block faces
     def retFXY0(self):
@@ -338,16 +339,16 @@ class blockClass:
         return ind[7]
 
     # functions to return the block for blockMeshDict
-    def retBlockString(self, cellZone = True):
+    def retBlockString(self):
         introStr    = "\thex\n"
         vertStr     = "\t\t(" + " ".join(" %d"%vert for vert in self.indices) + ")"
-        if cellZone and not self.name == None:
+        if self.cellZone and not self.name == None:
             nameStr     = "\t" + self.name
         discStr     = "\t(" + " ".join(" %d"%nC for nC in self.nCells) + ")"
         grTpStr     = "\t" + self.grStr + " "
         gradStr     = "\t(" + " ".join(" %s"%gr for gr in self.grading) + ")\n\n"
 
-        if cellZone and not self.name == None:
+        if self.cellZone and not self.name == None:
             return [introStr,vertStr,nameStr,discStr,grTpStr,gradStr]
         else:
             return [introStr,vertStr,discStr,grTpStr,gradStr]
