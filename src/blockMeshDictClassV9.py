@@ -86,6 +86,14 @@ class mesh:
         edge = edgeClass(edgeType, indices, vertices)
         self.edges.append(edge)
 
+    def estimNumberOfCells(self):
+        count = 0
+        for block in self.blocks:
+            nCells = block.nCells
+            count += nCells[0]*nCells[1]*nCells[2]
+
+        return count
+
     def writeBMD(self, path):
         bMD = open(path + "/blockMeshDict",'w')                    #open file for writing
         
