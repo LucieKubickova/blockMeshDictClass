@@ -9,6 +9,7 @@
 # v9
 # block class can return coordinates of vertices
 # option to create cellZones based on block names
+# flag if to look for neighboring blocks 
 
 #IMPORT BLOCK===========================================================
 import math
@@ -24,6 +25,7 @@ class mesh:
         self.blocks = list()
         self.patches = list()
         self.edges = list()
+        self.lookForNeighbors = True
 
     def areSame(self, p1, p2):
         p1 = np.array(p1)
@@ -52,7 +54,7 @@ class mesh:
                 if duplicate:
                     break
 
-        if not duplicate:
+        if not duplicate and self.lookForNeighbors:
             for nIndex in range(self.nPoints):
                 nVertex = self.vertices[nIndex]
                 duplicate = self.areSame(vertex, nVertex)
